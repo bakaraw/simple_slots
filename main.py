@@ -28,12 +28,22 @@ class Game:
 
             pygame.display.update()
             self.screen.blit(self.bg_image, (0, 0))
+            self.draw_grid()
             self.machine.update(self.delta_time)
             self.clock.tick(FPS)
 
         pygame.quit()
         sys.exit()
 
+    def draw_grid(self):
+        unit = int(SCREEN_WIDTH / COLS)
+        for x in range(0, SCREEN_WIDTH, unit):
+            pygame.draw.line(self.screen, GRID_COLOR, (x, 0), (x, SCREEN_HEIGHT), 10)
+
+        for y in range(0, SCREEN_HEIGHT, unit):
+            pygame.draw.line(self.screen, GRID_COLOR, (0, y), (SCREEN_WIDTH, y), 10)
+
+        pygame.draw.line(self.screen, GRID_COLOR, (SCREEN_WIDTH, 0), (SCREEN_WIDTH, SCREEN_HEIGHT), 10)
 if __name__ == "__main__":
     game = Game()
     game.run()
