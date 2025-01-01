@@ -6,5 +6,19 @@ FPS = 60
 
 ROW = 3
 COLS = 3
+UNIT = int(SCREEN_WIDTH / COLS)
+X_OFFSET = 50
+Y_OFFSET = 50
+
 GRID_COLOR = (255, 255, 255)
 
+SYMBOLS_PATH = "assets/symbols/"
+SYMBOLS = {
+    "7": f"{SYMBOLS_PATH}7.png",
+    "bar": f"{SYMBOLS_PATH}bar.png",
+    "bell": f"{SYMBOLS_PATH}bell.png",
+    "cherry": f"{SYMBOLS_PATH}cherry.png",
+    "grapes": f"{SYMBOLS_PATH}grapes.png",
+    "lemon": f"{SYMBOLS_PATH}lemon.png",
+    "melon": f"{SYMBOLS_PATH}melon.png",
+}
