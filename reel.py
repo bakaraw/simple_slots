@@ -3,13 +3,14 @@ import random
 import pygame
 
 class Reel():
-    def __init__(self, pos) -> None:
+    def __init__(self, pos, reel_distribution) -> None:
         self.symbol_list = pygame.sprite.Group()
-        self.shuffled_keys = list(SYMBOLS.keys())
+        self.reel_distribution = reel_distribution
+        self.shuffled_keys = reel_distribution
         random.shuffle(self.shuffled_keys)
+        print(self.shuffled_keys)
         self.shuffled_keys = self.shuffled_keys[:5]
         self.is_spinning = False
-
         for index, item in enumerate(self.shuffled_keys):
             self.symbol_list.add(Symbol(SYMBOLS[item], pos, index))
             pos = list(pos)
@@ -35,7 +36,7 @@ class Reel():
 
                         symbol_index = symbol.index
                         symbol.kill()
-                        self.symbol_list.add(Symbol(SYMBOLS[random.choice(self.shuffled_keys)], ((symbol.rect.x), -300), symbol_index))
+                        self.symbol_list.add(Symbol(SYMBOLS[random.choice(self.reel_distribution)], ((symbol.rect.x), -300), symbol_index))
 
     def start_spin(self, delay_time):
         self.delay_time = delay_time

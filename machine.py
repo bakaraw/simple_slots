@@ -63,7 +63,7 @@ class Machine:
                 x_topleft, y_topleft = x_topleft + (UNIT + X_OFFSET), -UNIT
                 print(x_topleft, y_topleft)
 
-            self.reel_list[self.reel_index] = Reel((x_topleft, y_topleft))
+            self.reel_list[self.reel_index] = Reel((x_topleft, y_topleft), REEL_FREQUENCY_MAP[self.reel_index])
             self.reel_index += 1
 
     def toggle_spinning(self):

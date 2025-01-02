@@ -23,3 +23,11 @@ SYMBOLS = {
     "lemon": f"{SYMBOLS_PATH}lemon.png",
     "melon": f"{SYMBOLS_PATH}melon.png",
 }
+
+REEL_FREQUENCY_MAP = [
+                ["7", "bar", "bar", "bar", "melon", "melon", "bell", "grapes", "grapes", "grapes", "grapes", "grapes", "grapes", "grapes", "lemon", "lemon", "lemon", "lemon", "lemon", "cherry", "cherry"],
+                ["7", "bar", "bar", "melon", "melon", "bell", "bell", "bell", "bell", "bell", "grapes", "grapes", "grapes", "lemon", "lemon", "lemon", "lemon", "lemon", "cherry", "cherry", "cherry", "cherry", "cherry", "cherry"],
+                ["7", "bar", "melon", "melon", "bell", "bell", "bell", "bell", "bell", "bell", "bell", "bell", "grapes", "grapes", "grapes", "lemon", "lemon", "lemon", "lemon"]
+            ]
+
+
