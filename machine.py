@@ -3,6 +3,7 @@ from settings import *
 from reel import *
 from wins import *
 from player import Player
+from debug import debug
 
 class Machine:
     def __init__(self) -> None:
@@ -46,7 +47,6 @@ class Machine:
             self.spin_time = pygame.time.get_ticks()
             self.currentPlayer.place_bet()
             self.machine_balance += self.currentPlayer.bet_size
-            print(self.currentPlayer.get_data())
             # self.currentPlayer.last_payout = None
 
     def draw_reels(self, delta_time):
@@ -111,6 +111,19 @@ class Machine:
         for reel in self.reel_list:
             self.reel_list[reel].symbol_list.draw(self.display_surface)
             self.reel_list[reel].symbol_list.update()
+
+        # debugger for player data
+        self.debugger()
+
+    def debugger(self):
+        # debugger
+        debug_player_data = self.currentPlayer.get_data()
+        machine_balance = "{:.2f}".format(self.machine_balance)
+        if self.currentPlayer.last_payout:
+            last_payout = "{:.2f}".format(self.currentPlayer.last_payout)
+        else:
+            last_payout = "N/A"
+        debug(f"Player balance: {debug_player_data['balance']} | Machine balance: {machine_balance} | Last payout: {last_payout}")
 
     def draw(self):
         pass
