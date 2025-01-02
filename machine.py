@@ -2,10 +2,12 @@ import pygame
 from settings import *
 from reel import *
 from wins import *
+from player import Player
 
 class Machine:
     def __init__(self) -> None:
         self.display_surface = pygame.display.get_surface()
+        self.machine_balance = 10000
         self.reel_index = 0
         self.reel_list = {}
         self.can_toggle = True
@@ -14,6 +16,7 @@ class Machine:
         self.prev_result = {}
         self.spin_result = {}
         self.create_reels()
+        self.currentPlayer = Player()
 
     def cooldowns(self):
         for reel in self.reel_list:
@@ -27,7 +30,10 @@ class Machine:
             if self.check_wins(self.get_result()):
                 self.win_data = self.check_wins(self.get_result())
                 if self.win_data:
+                    self.win_animation_ongoing = True
+                    self.pay_player(self.win_data, self.currentPlayer)
                     print(self.win_data)
+
                 # play sound
                 # self.pay_player(self.win_data, self.current_player)
                 # self.win_animation_ongoing = True
@@ -35,17 +41,14 @@ class Machine:
 
     def input(self):
         keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE] and self.can_toggle and self.currentPlayer.balance >= self.currentPlayer.bet_size:
             self.toggle_spinning()
             self.spin_time = pygame.time.get_ticks()
-
-        # if keys[pygame.K_SPACE] and self.can_toggle and self.currentPlayer.balance >= self.currentPlayer.bet_size:
-        #     self.toggle_spinning()
-        #     self.spin_time = pygame.time.get_ticks()
-            # self.currentPlayer.place_bet()
-            # self.machine_balance += self.currentPlayer.bet_size
+            self.currentPlayer.place_bet()
+            self.machine_balance += self.currentPlayer.bet_size
+            print(self.currentPlayer.get_data())
             # self.currentPlayer.last_payout = None
+
     def draw_reels(self, delta_time):
         for reel in self.reel_list:
             self.reel_list[reel].animate(delta_time)
@@ -88,6 +91,18 @@ class Machine:
                         hits[horizontal.index(row) + 1] = [sym, longest_seq(possible_win)]
         if hits:
             return hits
+
+    def pay_player(self, win_data, curr_player):
+        multiplier = 0
+        spin_payout = 0
+
+        for v in win_data.values():
+            multiplier += len(v[1])
+            spin_payout += (multiplier * curr_player.bet_size)
+            curr_player.balance += spin_payout
+            self.machine_balance -= spin_payout
+            self.currentPlayer.last_payout = spin_payout
+            self.currentPlayer.total_won += spin_payout
         
     def update(self, delta_time):
         self.cooldowns()
