@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 from reel import *
+from wins import *
 
 class Machine:
     def __init__(self) -> None:
@@ -9,6 +10,9 @@ class Machine:
         self.reel_list = {}
         self.can_toggle = True
         self.spinning = False
+        self.win_animation_ongoing = False
+        self.prev_result = {}
+        self.spin_result = {}
         self.create_reels()
 
     def cooldowns(self):
@@ -17,8 +21,17 @@ class Machine:
                 self.can_toggle = False
                 self.spinning = True
 
-        if not self.can_toggle and [self.reel_list[reel].is_spinning for reel in self.reel_list].count(False) == 3:
+        if not self.can_toggle and [self.reel_list[reel].is_spinning for reel in self.reel_list].count(False) == COLS:
             self.can_toggle = True
+
+            if self.check_wins(self.get_result()):
+                self.win_data = self.check_wins(self.get_result())
+                if self.win_data:
+                    print(self.win_data)
+                # play sound
+                # self.pay_player(self.win_data, self.current_player)
+                # self.win_animation_ongoing = True
+                # self.ui.win_text_angle = random.randint(-4, 4)
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -58,8 +71,26 @@ class Machine:
             
             for reel in self.reel_list:
                 self.reel_list[reel].start_spin(int(reel) * 200)
+
+    def get_result(self):
+        for reel in self.reel_list:
+            self.spin_result[reel] = self.reel_list[reel].reel_spin_result()
+        return self.spin_result
+
+    def check_wins(self, result):
+        hits = {}
+        horizontal = flip_horizontal(result)
+        for row in horizontal:
+            for sym in row:
+                if row.count(sym) > 2:
+                    possible_win = [index for index, val in enumerate(row) if sym == val]
+                    if len(longest_seq(possible_win)) > 2:
+                        hits[horizontal.index(row) + 1] = [sym, longest_seq(possible_win)]
+        if hits:
+            return hits
         
     def update(self, delta_time):
+        self.cooldowns()
         self.input()
         self.draw_reels(delta_time)
         for reel in self.reel_list:

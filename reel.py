@@ -42,6 +42,14 @@ class Reel():
         self.spin_time = 1000 + delay_time
         self.is_spinning = True
 
+    def reel_spin_result(self):
+        spin_result = []
+
+        for i in GAME_INDICES:
+            spin_result.append(self.symbol_list.sprites()[i].sym_type)
+
+        return spin_result[::-1]
+
 
 class Symbol(pygame.sprite.Sprite):
     def __init__(self, path_to_symbol: str, pos, index) -> None:
