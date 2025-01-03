@@ -4,6 +4,7 @@ from reel import *
 from wins import *
 from player import Player
 from debug import debug
+from ui import UI
 
 class Machine:
     def __init__(self) -> None:
@@ -14,10 +15,12 @@ class Machine:
         self.can_toggle = True
         self.spinning = False
         self.win_animation_ongoing = False
+        self.can_animate = False
         self.prev_result = {}
         self.spin_result = {}
         self.create_reels()
         self.currentPlayer = Player()
+        self.ui = UI(self.currentPlayer)
 
     def cooldowns(self):
         for reel in self.reel_list:
@@ -33,12 +36,11 @@ class Machine:
                 if self.win_data:
                     self.win_animation_ongoing = True
                     self.pay_player(self.win_data, self.currentPlayer)
-                    print(self.win_data)
 
                 # play sound
                 # self.pay_player(self.win_data, self.current_player)
-                # self.win_animation_ongoing = True
-                # self.ui.win_text_angle = random.randint(-4, 4)
+                self.win_animation_ongoing = True
+                self.ui.win_text_angle = random.randint(-4, 4)
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -47,7 +49,7 @@ class Machine:
             self.spin_time = pygame.time.get_ticks()
             self.currentPlayer.place_bet()
             self.machine_balance += self.currentPlayer.bet_size
-            # self.currentPlayer.last_payout = None
+            self.currentPlayer.last_payout = None
 
     def draw_reels(self, delta_time):
         for reel in self.reel_list:
@@ -74,6 +76,7 @@ class Machine:
             
             for reel in self.reel_list:
                 self.reel_list[reel].start_spin(int(reel) * 200)
+                self.win_animation_ongoing = False
 
     def get_result(self):
         for reel in self.reel_list:
@@ -90,6 +93,7 @@ class Machine:
                     if len(longest_seq(possible_win)) > 2:
                         hits[horizontal.index(row) + 1] = [sym, longest_seq(possible_win)]
         if hits:
+            self.can_animate = True
             return hits
 
     def pay_player(self, win_data, curr_player):
@@ -112,8 +116,11 @@ class Machine:
             self.reel_list[reel].symbol_list.draw(self.display_surface)
             self.reel_list[reel].symbol_list.update()
 
+        self.draw_grid()
         # debugger for player data
-        self.debugger()
+        # self.debugger()
+        self.ui.update()
+        self.win_animation()
 
     def debugger(self):
         # debugger
@@ -125,5 +132,30 @@ class Machine:
             last_payout = "N/A"
         debug(f"Player balance: {debug_player_data['balance']} | Machine balance: {machine_balance} | Last payout: {last_payout}")
 
-    def draw(self):
-        pass
+    def draw_grid(self):
+        for x in range(0, SCREEN_WIDTH, UNIT):
+            pygame.draw.line(self.display_surface, GRID_COLOR, (x, 0), (x, SCREEN_HEIGHT), 10)
+
+        for y in range(0, SCREEN_HEIGHT, UNIT):
+            pygame.draw.line(self.display_surface, GRID_COLOR, (0, y), (SCREEN_WIDTH, y), 10)
+
+        pygame.draw.line(self.display_surface, GRID_COLOR, (SCREEN_WIDTH, 0), (SCREEN_WIDTH, SCREEN_HEIGHT), 10)
+
+    def win_animation(self):
+        if self.win_animation_ongoing and self.win_data:
+            for k, v in list(self.win_data.items()):
+                if k == 1:
+                    animationRow = 3
+                elif k == 3: 
+                    animationRow = 1
+                else:
+                    animationRow = 2
+                    
+                animationCols = v[1]
+                for reel in self.reel_list:
+                    if reel in animationCols and self.can_animate:
+                        self.reel_list[reel].symbol_list.sprites()[animationRow].fade_in = True
+                    for symbol in self.reel_list[reel].symbol_list:
+                        if not symbol.fade_in:
+                            symbol.fade_out = True
+

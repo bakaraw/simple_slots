@@ -10,7 +10,9 @@ UNIT = int(SCREEN_WIDTH / COLS)
 X_OFFSET = 0
 Y_OFFSET = 20
 GAME_INDICES = [1, 2, 3]
-
+UI_FONT = "assets/fonts/Daydream.ttf"
+UI_FONT_SIZE = 12
+TEXT_COLOR = 'white'
 GRID_COLOR = (255, 255, 255)
 
 SYMBOLS_PATH = "assets/symbols/"

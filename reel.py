@@ -65,5 +65,19 @@ class Symbol(pygame.sprite.Sprite):
         new_height = int(new_width/aspect_ratio)
         self.image = pygame.transform.scale(self.image, (new_width, new_height))
 
+        self.size_x = new_width
+        self.size_y = new_height
+        self.alpha = 255
+        self.fade_out = False
+        self.fade_in = False
+
     def update(self):
-        pass
+        if self.fade_in:
+            if self.size_x < 300:
+                self.size_x += 1
+                self.size_y += 1
+                self.image = pygame.transform.scale(self.image, (self.size_x, self.size_y))
+        elif not self.fade_in and self.fade_out:
+            if self.alpha > 115:
+                self.alpha -= 7
+                self.image.set_alpha(self.alpha)

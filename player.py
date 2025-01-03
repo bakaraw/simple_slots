@@ -4,7 +4,7 @@ class Player:
     def __init__(self) -> None:
         self.balance = 1000
         self.bet_size = 10
-        self.last_payout = 0
+        self.last_payout = None
         self.total_won = 0
         self.total_wager = 0
 
