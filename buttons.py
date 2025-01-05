@@ -22,13 +22,13 @@ class Button:
         self.screen.blit(text_surface, text_rect)
         if self.is_active:
             self.text_color = 'black'
-            if self.is_hovered():
-                self.color = (230, 230, 230)
-            else:
-                self.color = (255, 255, 255)
+            self.color = (255, 255, 255)
         else:
             self.color = 'black'
             self.text_color = 'white'
+            if self.is_hovered():
+                self.color = (230, 230, 230)
+                self.text_color = 'black'
 
         if self.is_clicked():
             self.clicked = True
