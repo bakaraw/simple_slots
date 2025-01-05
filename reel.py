@@ -8,7 +8,6 @@ class Reel():
         self.reel_distribution = reel_distribution
         self.shuffled_keys = reel_distribution
         random.shuffle(self.shuffled_keys)
-        print(self.shuffled_keys)
         self.shuffled_keys = self.shuffled_keys[:5]
         self.is_spinning = False
         for index, item in enumerate(self.shuffled_keys):
