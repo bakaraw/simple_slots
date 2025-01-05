@@ -32,4 +32,17 @@ REEL_FREQUENCY_MAP = [
                 ["7", "bar", "melon", "melon", "bell", "bell", "bell", "bell", "bell", "bell", "bell", "bell", "grapes", "grapes", "grapes", "lemon", "lemon", "lemon", "lemon"]
             ]
 
-
+PAY_TABLE = [
+    [["7", "7", "7"], 200],
+    [["bar", "bar", "bar"], 100],
+    [["melon", "melon", "melon"], 100],
+    [["melon", "melon", "bar"], 100],
+    [["bell", "bell", "bell"], 18],
+    [["bell", "bell", "bar"], 18],
+    [["grapes", "grapes", "grapes"], 14],
+    [["grapes", "grapes", "bar"], 14],
+    [["lemon", "lemon", "lemon"], 10],
+    [["lemon", "lemon", "bar"], 10],
+    [["cherry", "cherry", "any"], 5],
+    [["cherry", "any", "any"], 2]
+]
