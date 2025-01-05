@@ -1,3 +1,6 @@
+from settings import *
+
+
 def flip_horizontal(result):
     horizontal_values = []
     for values in result.values():
@@ -27,3 +30,29 @@ def longest_seq(hit):
             sub_seq_length = 1
 
     return hit[start:end]
+
+def find_win_horizontal(hit, lines):
+    win_lines = {}
+    pay_table = PAY_TABLE
+    
+    # append to table any symbols for cherry
+    for sym in SYMBOLS.keys():
+        if sym is not "cherry":
+            pay_table.append([["cherry", "cherry", sym], 5])
+
+    for sym in SYMBOLS.keys():
+        for sym2 in SYMBOLS.keys():
+            if sym is not "cherry":
+                pay_table.append([["cherry", sym, sym2], 2])
+
+    if lines > 1:
+        for index, val in enumerate(hit):
+            for win_line in PAY_TABLE:
+                if val == win_line[0]:
+                    win_lines[index + 1] = win_line
+
+    print(win_lines)
+    return win_lines
+
+
+
