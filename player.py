@@ -7,6 +7,7 @@ class Player:
         self.last_payout = None
         self.total_won = 0
         self.total_wager = 0
+        self.lines_selected = 1
 
     def get_data(self):
         player_data = {
