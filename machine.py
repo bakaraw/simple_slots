@@ -33,16 +33,11 @@ class Machine:
 
             if self.check_wins(self.get_result()):
                 self.win_data = self.check_wins(self.get_result())
-                print(self.win_data)
                 if self.win_data:
                     self.win_animation_ongoing = True
                     self.pay_player(self.win_data, self.currentPlayer)
 
                 # play sound
-
-                # TODO: Fix self.pay_player
-                # self.pay_player(self.win_data, self.current_player)
-                
                 self.win_animation_ongoing = True
                 self.ui.win_text_angle = random.randint(-4, 4)
 
@@ -67,7 +62,6 @@ class Machine:
         while self.reel_index < COLS:
             if self.reel_index > 0:
                 x_topleft, y_topleft = x_topleft + (UNIT + X_OFFSET), -UNIT
-                print(x_topleft, y_topleft)
 
             self.reel_list[self.reel_index] = Reel((x_topleft, y_topleft), REEL_FREQUENCY_MAP[self.reel_index])
             self.reel_index += 1
@@ -95,23 +89,12 @@ class Machine:
             self.can_animate = True
             return hits
 
-        # print(horizontal)
-        # for row in horizontal:
-        #     for sym in row:
-        #         if row.count(sym) > 2:
-        #             possible_win = [index for index, val in enumerate(row) if sym == val]
-        #             if len(longest_seq(possible_win)) > 2:
-        #                 hits[horizontal.index(row) + 1] = [sym, longest_seq(possible_win)]
-        # if hits:
-        #     self.can_animate = True
-        #     return hits
-
     def pay_player(self, win_data, curr_player):
         multiplier = 0
         spin_payout = 0
 
         for v in win_data.values():
-            multiplier += v[1]
+            multiplier = v[1]
             spin_payout += (multiplier * curr_player.bet_size)
             curr_player.balance += spin_payout
             self.machine_balance -= spin_payout
@@ -179,11 +162,9 @@ class Machine:
                         for reel_index, reel in enumerate(self.reel_list):
                             if k == 4:
                                 if reel_index == ROW - i - 1:
-                                    print(f"Diagonal win (4) at reel {reel_index}, row {i}")
                                     self.reel_list[reel].symbol_list.sprites()[i + 1].fade_in = True
                             elif k == 5:
                                 if reel_index == i:
-                                    print(f"Diagonal win (5) at reel {reel_index}, row {i}")
                                     self.reel_list[reel].symbol_list.sprites()[i + 1].fade_in = True
 
                     for reel in self.reel_list:
