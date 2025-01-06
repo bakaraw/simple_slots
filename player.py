@@ -21,5 +21,6 @@ class Player:
 
     def place_bet(self):
         bet = self.bet_size
-        self.balance -= bet
-        self.total_wager += bet
+        wager = bet * self.lines_selected
+        self.balance -= wager
+        self.total_wager += wager
