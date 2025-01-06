@@ -163,10 +163,30 @@ class Machine:
                     animationRow = 1
                 elif k == 2:
                     animationRow = 2
-                if k is not 4 or k is not 5:
+
+                # animation for non diagonal wins
+                # index 4 and 5 are indices for diagonal
+                if k != 4 and k != 5:
                     for reel in self.reel_list:
                         if self.can_animate:
                             self.reel_list[reel].symbol_list.sprites()[animationRow].fade_in = True
+                        for symbol in self.reel_list[reel].symbol_list:
+                            if not symbol.fade_in:
+                                symbol.fade_out = True
+
+                else:
+                    for i in range(ROW):
+                        for reel_index, reel in enumerate(self.reel_list):
+                            if k == 4:
+                                if reel_index == ROW - i - 1:
+                                    print(f"Diagonal win (4) at reel {reel_index}, row {i}")
+                                    self.reel_list[reel].symbol_list.sprites()[i + 1].fade_in = True
+                            elif k == 5:
+                                if reel_index == i:
+                                    print(f"Diagonal win (5) at reel {reel_index}, row {i}")
+                                    self.reel_list[reel].symbol_list.sprites()[i + 1].fade_in = True
+
+                    for reel in self.reel_list:
                         for symbol in self.reel_list[reel].symbol_list:
                             if not symbol.fade_in:
                                 symbol.fade_out = True
