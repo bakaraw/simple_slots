@@ -155,7 +155,21 @@ class Machine:
 
     def win_animation(self):
         if self.win_animation_ongoing and self.win_data:
-            pass
+            for k, v in self.win_data.items():
+                if k == 1:
+                    animationRow = 3
+                elif k == 3:
+                    animationRow = 1
+                else:
+                    animationRow = 2
+
+                for reel in self.reel_list:
+                    if self.can_animate:
+                        self.reel_list[reel].symbol_list.sprites()[animationRow].fade_in = True
+                    for symbol in self.reel_list[reel].symbol_list:
+                        if not symbol.fade_in:
+                            symbol.fade_out = True
+
             # print(self.win_data)
             # for k, v in list(self.win_data.items()):
             #     if k == 1:
