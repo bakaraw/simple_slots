@@ -34,7 +34,6 @@ def longest_seq(hit):
 def find_win(hit, lines):
     win_lines = {}
     diagonals = get_diagonals(hit)
-    print(hit[1])
 
     # append to table any symbols for cherry
     if len(PAY_TABLE) == 12:
@@ -64,9 +63,6 @@ def find_win(hit, lines):
                 for win_line in PAY_TABLE:
                     if val == win_line[0]:
                         win_lines[index + 4] = win_line
-                
-
-    print(win_lines)
     return win_lines
 
 def get_diagonals(results):
