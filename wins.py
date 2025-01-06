@@ -31,8 +31,9 @@ def longest_seq(hit):
 
     return hit[start:end]
 
-def find_win_horizontal(hit, lines):
+def find_win(hit, lines):
     win_lines = {}
+    diagonals = get_diagonals(hit)
     print(hit[1])
 
     # append to table any symbols for cherry
@@ -48,10 +49,8 @@ def find_win_horizontal(hit, lines):
 
     # if selected lines is 1
     if lines == 1:
-        print(f"lines: {lines}")
         for win_line in PAY_TABLE:
             if hit[1] == win_line[0]:
-                print("win")
                 win_lines[2] = win_line
     # if selected lines is 3 or 5
     elif lines > 1:
@@ -60,8 +59,26 @@ def find_win_horizontal(hit, lines):
                 if val == win_line[0]:
                     win_lines[index + 1] = win_line
 
+        if lines == 5:
+            for index, val in enumerate(diagonals):
+                for win_line in PAY_TABLE:
+                    if val == win_line[0]:
+                        win_lines[index + 4] = win_line
+                
+
     print(win_lines)
     return win_lines
 
+def get_diagonals(results):
+    diagonal_values = []
+    diagonal_values1 = []
+    diagonal_values2 = []
 
+    for i in range(ROW):
+        diagonal_values1.append(results[i][i])
+        diagonal_values2.append(results[ROW - i - 1][i])
+
+    diagonal_values.append(diagonal_values1)
+    diagonal_values.append(diagonal_values2)
+    return diagonal_values
 
