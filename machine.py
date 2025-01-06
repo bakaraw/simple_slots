@@ -36,7 +36,7 @@ class Machine:
                 print(self.win_data)
                 if self.win_data:
                     self.win_animation_ongoing = True
-                    # self.pay_player(self.win_data, self.currentPlayer)
+                    self.pay_player(self.win_data, self.currentPlayer)
 
                 # play sound
 
@@ -48,7 +48,7 @@ class Machine:
 
     def input(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE] and self.can_toggle and self.currentPlayer.balance >= self.currentPlayer.bet_size:
+        if keys[pygame.K_SPACE] and self.can_toggle and self.currentPlayer.balance >= (self.currentPlayer.bet_size * self.currentPlayer.lines_selected):
             self.toggle_spinning()
             self.spin_time = pygame.time.get_ticks()
             self.currentPlayer.place_bet()
@@ -89,7 +89,7 @@ class Machine:
 
     def check_wins(self, result):
         horizontal = flip_horizontal(result)
-        hits = find_win_horizontal(horizontal, 3)
+        hits = find_win_horizontal(horizontal, self.currentPlayer.lines_selected)
 
         if hits:
             self.can_animate = True
@@ -111,7 +111,7 @@ class Machine:
         spin_payout = 0
 
         for v in win_data.values():
-            multiplier += len(v[1])
+            multiplier += v[1]
             spin_payout += (multiplier * curr_player.bet_size)
             curr_player.balance += spin_payout
             self.machine_balance -= spin_payout

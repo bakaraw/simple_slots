@@ -33,22 +33,28 @@ def longest_seq(hit):
 
 def find_win_horizontal(hit, lines):
     win_lines = {}
-    print(len(PAY_TABLE))
-    pay_table = PAY_TABLE
+    print(hit[1])
 
     # append to table any symbols for cherry
     if len(PAY_TABLE) == 12:
         for sym in SYMBOLS.keys():
             if sym is not "cherry":
-                pay_table.append([["cherry", "cherry", sym], 5])
+                PAY_TABLE.append([["cherry", "cherry", sym], 5])
 
         for sym in SYMBOLS.keys():
             for sym2 in SYMBOLS.keys():
                 if sym is not "cherry":
-                    pay_table.append([["cherry", sym, sym2], 2])
+                    PAY_TABLE.append([["cherry", sym, sym2], 2])
 
+    # if selected lines is 1
+    if lines == 1:
+        print(f"lines: {lines}")
+        for win_line in PAY_TABLE:
+            if hit[1] == win_line[0]:
+                print("win")
+                win_lines[2] = win_line
     # if selected lines is 3 or 5
-    if lines > 1:
+    elif lines > 1:
         for index, val in enumerate(hit):
             for win_line in PAY_TABLE:
                 if val == win_line[0]:
