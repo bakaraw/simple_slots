@@ -24,3 +24,10 @@ class Player:
         wager = bet * self.lines_selected
         self.balance -= wager
         self.total_wager += wager
+
+    def increase_bet(self):
+        self.bet_size += 1
+
+    def decrease_bet(self):
+        if self.bet_size > 0:
+            self.bet_size -= 1
