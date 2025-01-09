@@ -11,7 +11,7 @@
 - The game includes features such as random reel generation and balance tracking.
 
 ## Demo
-![Demo video](assets/Demo/demo.mkv)
+[Demo video](assets/Demo/demo.mp4)
 
 ## How to Run
 run the following command in the terminal
